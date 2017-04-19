@@ -1,0 +1,3 @@
+http://www.musoft-builders.nl/software/controlling-the-crazyflie/
+
+https://29a.ch/2013/2/24/xbox-controller-with-ubuntu-steam-xboxdrv

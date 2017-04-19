@@ -1,0 +1,20 @@
+CFclients:
+https://github.com/bitcraze/crazyflie-clients-python/releases
+
+### Windows ###
+Cfclient 2014.01.0 # the 2014 edition, Windows
+	- Connects
+	- Detects xb1 controller
+	- But, as of late, weird connection/lag issue with CF regardless of environment
+		- Might be FW issue
+
+CFclient 2016.4.1
+	- Connects
+	- Console works properly
+	- Does NOT detect xb1 controller
+
+############
+Ubuntu
+Cfclient 2016.4-95-gb1045f5
+	- Connects
+	

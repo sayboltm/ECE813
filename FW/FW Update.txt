@@ -1,0 +1,5 @@
+CFClient
+	Initiate bootloader cold boot
+	hold power button for 3 sec after restarts
+	flash FW
+	Restart in firmware mode

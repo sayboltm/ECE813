@@ -1,0 +1,15 @@
+# Crazyflie urls
+git://github.com/bitcraze/crazyflie2-exp-template-electronics.git
+git://github.com/bitcraze/crazyflie2-exp-template-electronics.git
+git://github.com/bitcraze/crazyflie2-nrf-bootloader.git
+git://github.com/bitcraze/crazyflie2-nrf-firmware.git
+git://github.com/bitcraze/crazyflie2-stm-bootloader.git
+git://github.com/bitcraze/crazyflie-android-client.git
+git://github.com/bitcraze/crazyflie-bootloader.git
+git://github.com/bitcraze/crazyflie-clients-python.git
+git://github.com/bitcraze/crazyflie-firmware.git
+git://github.com/bitcraze/crazyflie-lib-python.git
+git://github.com/bitcraze/crazyradio-firmware.git
+Updating /home/bitcraze/projects/lps-node-firmware
+git://github.com/bitcraze/lps-node-firmware.git
+Already up-to-date.

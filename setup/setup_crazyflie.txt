@@ -1,0 +1,125 @@
+Setting up this damn crazyflie with details:
+Note: this was for Kali, might be a bit more difficult than Ubuntu
+
+https://github.com/bitcraze/crazyflie-clients-python/blob/develop/README.md
+
+	Installing cflib (crazyflie-lib-python)
+	https://github.com/bitcraze/crazyflie-lib-python
+	https://github.com/bitcraze/crazyflie-lib-python/blob/master/README.md
+
+	Do this shit
+	pip3 install virtualenv
+	virtualenv venv
+		Problem: command not found
+		-> Add to path
+			http://stackoverflow.com/questions/15453793/how-to-add-virtualenv-to-path
+		which virtualenv (returns nothing)
+		virtualenv someDir (cmd not found)
+
+		pi3p uninstall virtualenv
+		sudo pip3 install virtualenvhttp://stackoverflow.com/questions/15453793/how-to-add-virtualenv-to-path
+		- problem solved, isntalled inglobal scope with sudo -
+
+	# Activate the venv
+	source venv/bin/activate
+
+	(venv)	pip3 install -r requirements.txt
+			//pyusb-1.0.0 installed
+
+	# Activate again (?)
+	(venv)	source venv/bin/activate
+
+	# Connect crazyflie and run an example
+	(venv)	python3 -m examples.basiclog
+
+	# Deactive the virtualenv if activated
+	deactivate
+
+	# TODO: SOMETHING IS ToTALLY FUCKED HERE THE EXAMPLE CANNE RUN THISSHTI
+
+
+	#Toolbelt: https://wiki.bitcraze.io/projects:dockerbuilderimage:index
+
+		# Install docker: www.docker.com
+
+		# Check kernel version
+		uname -r # 4.0.0-kali1-amd64 # need > 3.10 
+		# -or-
+		uname -a # bnch of shit
+
+		# Kali 2.0 is based on Debian Jesse
+		# Use:
+		lsb_release -cs
+		# to see what name (says 'sana'??)
+	
+		# 1. Install packages to allow apt to use repo over HTTPS
+		sudo apt-get install -y --no-install-recommends\
+			apt-transport-https \
+			ca-certificates \
+			curl software-properties-common
+
+			# Might also need
+			sudo apt-get update --fix-missing
+
+		# 2. Add Docker's official GPG key:
+		curl -fsSL https://apt.dockerproject.org/gpg | sudo apt-key add -
+
+		# Returns 'OK' (Don't forget about the '-' whtaever that does)
+
+
+
+		# Verify key ID is: 58118E89F3A912897C070ADBF76221572C52609D
+		apt-key fingerprint 58118E89F3A912897C070ADBF76221572C52609D
+		# (will return pub/uid shit if correct)
+
+		# 3. Use to set up the stable repository
+		sudo add-apt-repository "deb https://apt.dockerproject.org/ \
+			repo/debian-$(lsb_release -cs) main"
+
+			# If: sudo: add-apt-repository: command not found
+			sudo apt-get install software-properties-common python-software-properties
+
+		# FUCK ALL THIS SHIT
+		sudo apt install docker
+		NOOOO wtf is this shit
+		
+		# USe this shit
+		https://gist.github.com/apolloclark/f0e3974601346883c731
+		# IT WORKS!
+
+		# Pull Kali image from docker
+		docker pull kalilinux/kali-linux-docker
+
+			# To run (not explicitly used here I don't think
+			docker run -t -i kalilinux/kali-linux-docker /bin/bash
+
+		# Setup bitcraze toolbelt in docker
+		docker run --rm -it bitcraze/toolbelt
+
+		# Will print instructions stating:
+Installation on linux, OSX and Windows:
+Add "alias tb='docker run --rm -it -e "HOST_CW_DIR=${PWD}" -e "CALLING_HOST_NAME=$(hostname)" -e "CALLING_UID"=$UID -e "CALLING_OS"=$(uname) -v ${PWD}:/tb-module -v ${HOME}/.ssh:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock bitcraze/toolbelt'" to your .profile or .bashrc
+
+		# What this means is:
+		vim/textEditorOfYourChoice ~/.bashrc
+		# Paste the shit in
+
+
+		# To avoid logout/login, refresh with:
+		source ~/.bashrc
+
+		# NOTE: Had to add sudo in front of call to docker
+
+		# See this shit for more info:
+		https://github.com/bitcraze/toolbelt
+
+
+	# </cflib install>
+
+	#still in the cflib folder:
+	sudo pip3 install -e .
+
+	# Installed this shit:
+	sudo apt-get install python3 python3-pip python3-pyqt4 python3-zmq python3-pyqtgraph
+
+	

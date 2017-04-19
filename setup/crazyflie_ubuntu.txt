@@ -1,0 +1,181 @@
+# Setting up crazyflie V2.0 
+
+https://github.com/bitcraze/crazyflie-clients-python/blob/develop/README.md
+
+# Fork crazyflie-clients-python (web interface)
+# Clone
+git clone gh-sayboltm:sayboltm/crazyflie-clients-python.git
+
+# Install the cflib in editable mode
+	# Check version to know if pip is for python 2 or 3
+	pip -V
+	# If pip for python 3, continue
+# pip install -e path/to/cflib   
+pip install -e ~/GitHub/sayboltm/crazyflie-clients-python
+
+# Uninstall the cflib (why?)
+pip uninstall cflib
+
+# TODO: Clarify: This probs needs to be installed in virtualenv bc sudo pip bad
+
+# Attempting alternate install using conda venvs instead of virtualenv
+# TODO: conda update conda flips a shit. fix/figure out. Proceeding with 3.19.1
+
+# Create a venv with conda
+conda create -n yourenvname python=x.x
+#conda create -n crazyflie python=3.5.1
+conda create -n crazyflie python=3.4 numpy=1.10.1 pyqt pyqtgraph
+
+# Activate
+source activate crazyflie
+
+### Now we can actually do the cflib install
+# https://github.com/bitcraze/crazyflie-clients-python/blob/master/README.md
+	# https://github.com/bitcraze/crazyflie-lib-python
+
+# Testing with docker and the toolbelt
+# Check toolbelt
+tb test
+	# Install toolbelt
+	#https://wiki.bitcraze.io/projects:dockerbuilderimage:index
+	
+		# Install Docker to contain the toolbelt
+		#https://docs.docker.com/engine/installation/linux/ubuntu/#install-from-a-package
+		
+		# 1. Install packages to allow apt to use repo over https:
+		sudo apt-get install \
+		    apt-transport-https \
+		    ca-certificates \
+		    curl \
+		    software-properties-common
+		# NOTE: Was already latest version, didn't do anything
+
+		# 2. Add Docker's GPG key	
+		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+		# Returns: 'OK'
+			# Verify fingerprint from website
+			sudo apt-key fingerprint 0EBFCD88
+
+		# 3. Setup a stable repository
+			# amd64: (armhf also available)
+			sudo add-apt-repository \
+   				"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   				$(lsb_release -cs) \
+   				stable"
+
+		# Install Docker
+		# 1. Update apt package index
+		sudo apt-get update
+		
+		# 2. Install latest version of docker
+		sudo apt-get install docker-ce # docker-ee for enterprise
+
+		# 2.5 OR for production systems, use specific version
+		sudo apt-get install docker-ce=<VERSION>
+
+		# Version used at time of this writing:
+		# docker-ce_17.03.1~ce-0~ubuntu-xenial_amd64.deb
+		# 17.03.1~ce-0~ubuntu-xenial
+
+		# 4. Verify that Docker CE is working using hellow-world image
+		sudo docker run hello-world
+
+		# NOTE: need to use sudo to run docker commands
+		# If undesired see:
+		https://docs.docker.com/engine/installation/linux/linux-postinstall/
+		
+		# To update Docker:
+		sudo apt-get update
+		# follow this:
+		https://docs.docker.com/engine/installation/linux/ubuntu/#install-docker
+	# Back to toolbelt, now that we have docker
+	# The only installation required is to add an alias to .profile or .bashrc so that commands are in your $PATH (just type into terminal and they run)
+	docker run --rm -it bitcraze/toolbelt
+	# Had to use sudo. Security issue?
+
+	# tb test still doesn't work. Continue.
+
+	# actually add the alias:
+
+		# Open ~/.bashrc and paste:
+# Added manually for crazyflie use/dev
+alias tb='docker run --rm -it -e "HOST_CW_DIR=${PWD}" -e "CALLING_HOST_NAME=$(hostname)" -e "CALLING_UID"=$UID -e "CALLING_OS"=$(uname) -v ${PWD}:/tb-module -v ${HOME}/.ssh:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock bitcraze/toolbelt'
+
+		# This is what the program was telling you to add to add alias
+
+	# Normally you have to logout/in to refresh bashrc. Just use:
+	source ~/.bashrc
+	# This refreshes for current terminal. So run in the one you want to useor open a new one
+	
+	# tb test now gets permission denied because not root
+	# but don't want to use root bc infosec vuln
+	# Set udev permissions (for linux)
+	# TODO: Something is wrong here, need udev for usbplug .. and this?
+
+	# TODO: tb doesn't work properly
+		# Alias appears to be setup correctly despite error about it not
+		# when running docker run --rm -it bitcraze/toolbelt
+		# But tb -V works (???)
+		# Won't run tb test, tb verify, returns:
+		Error: Don't know how to execute <test|verify>
+
+	# TODO: stuff with Tox
+
+# Set udev (USB device) permission/behavior so can use USB Radio without root
+# this is done by adding your normal usr to grp plugdev, then adding a rule
+# in udev to allow access to users in grp plugdev
+sudo groupadd plugdev
+sudo usermod -a -G plugdev <username>
+# i.e.: sudo usermod -a -G plugdev mike
+# Might already be in there
+groups mike
+
+# Create and/or add the following rule to /etc/udev/rules.d/99-crazyradio.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1915", ATTRS{idProduct}=="7777", MODE="0664", GROUP="plugdev"
+
+# Create and/or add the following rule to /etc/udev/rules.d/99-crazyflie.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0664", GROUP="plugdev"
+# That one is for plugging in the crazyflie to usb
+# MAKE SURE TYPED CORRECTLY ELSE CFCLIENT WON'T SEE RADIO/CRAZYFLIE
+# To view usb devices and see where some of those numbers come from:
+lsusb
+
+# Install extra dependencies
+sudo apt-get install python3 python3-pip python3-pyqt4 python3-zmq python3-pyqtgraph
+sudo pip3 install pyusb==1.0.0b2
+sudo pip3 install appdirs
+
+# Might have to just use pip (no sudo) since inside venv
+# Check with:
+pip freeze
+
+# OR USE CONDA. There is no consistency in CF documentation.
+# Had issues installing those dependencies because the Anaconda3 folder was
+# owned by root. Permission denied. Had to use chown to change to usr mike
+
+# Beware conflicting documentation!!!!!! WTAF
+# Above is from::
+https://github.com/bitcraze/crazyflie-clients-python/blob/master/README.md
+
+# But this says
+https://github.com/bitcraze/crazyflie-clients-python/
+# use pyqt5
+conda install -c anaconda pyqt=5.6.0
+# NOTE: This broke the version of Spyder that actually works... shit
+# it wants pyqt4.6+ but < 5.0
+
+# Run cfclient GUI
+cd /path/to/crazyflie-clients-python
+python bin/cfclient # assuming python -V returns a python3 (preferrably 3.4) from your venv
+# BOOM.
+
+
+# TODO: setup xbox drv
+
+### BONUS: Setting up xbox drivers for controlling CF2 with xbox controller
+
+
+
+
+# TODO: Verify entire system works including radio shit + xbox controller input
+	# The two main issues encountered with cfbullshit

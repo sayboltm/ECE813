@@ -1,0 +1,13 @@
+Bus 002 Device 002: ID 8087:8000 Intel Corp. 
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 8087:8008 Intel Corp. 
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 003: ID 138a:0017 Validity Sensors, Inc. Fingerprint Reader
+Bus 003 Device 002: ID 058f:9540 Alcor Micro Corp. AU9540 Smartcard Reader
+Bus 003 Device 009: ID 1915:7777 Nordic Semiconductor ASA 
+Bus 003 Device 005: ID 5986:026a Acer, Inc 
+Bus 003 Device 004: ID 8087:07dc Intel Corp. 
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+# Nordic semiconductor is the Crazyradio PA

@@ -1,0 +1,73 @@
+# Some notes from class 4/18/17
+
+# 3 Scheduling decisions
+Assignment
+	which proc should exec a given task
+
+Ordering
+	order in which proc should exec its tasks
+
+Timing
+	at what time to execute things
+
+Design time vs Run time
+	Static order scheduler
+		assignment and ordering is done at design time; 
+		timing decided at run time
+
+		aka offline scheduler
+
+	Static assignment scheuler
+		Assignment is at design time, rest at run time
+
+	A fully-dynamic scheduler
+		makes all schedulign decisions at run time
+		- good for very dynamic environments (i.e. cloud computing/AWS etc)
+		server failure is assumed to happen
+			- cannot bind one process to one processor
+
+
+
+Pre-emption vs Non-preemption
+	Tasks of higher priority can take over other tasks
+
+### Task Models
+Arrival of tasks
+	Fixed and known ahead of time
+
+Hard vs soft deadlines
+	Hard realtime systems
+		ex: ABS -> safety critical applications
+	Soft realtime systems
+		video applications
+
+	Priority
+		Fixed priority
+		Dynamic priority
+
+Rate Monotonic scheduling 
+	optimal write feasibility
+	higher priority to tasks with smaller period
+
+
+Earliest Deadline First (EDF)
+	may not be feasible but,
+	minimizes Max Lateness
+
+Latest Deadline First (LDF)
+	also minimizes max lateness
+
+EDF*
+	Similar to first two but supports arrival of tasks
+	Modifies deadlines
+	di' = min(di, min(dj'-ej)), where j in set of D(i)
+
+# Some kind of example of something:
+d6' = min(6, N/A) -> 6
+d5' = 5
+d4' = 4
+d3' = min(4,5) = 4
+d2' = min(5, min(2,4)) = 2
+d1' = min(2,min(1,3))=1
+# See Figure_12.07.pdf
+
