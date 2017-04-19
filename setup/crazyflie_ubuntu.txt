@@ -173,12 +173,18 @@ python bin/cfclient # assuming python -V returns a python3 (preferrably 3.4) fro
 # TODO: setup xbox drv
 
 ### BONUS: Setting up xbox drivers for controlling CF2 with xbox controller
+instructions got deleted wtf
+
+There are a few drivers available for the controller
+	xpad # default driver
+	xboxdrv # xbox driver
+	ubuntu-xboxdrv # enhanced ubuntu xboxdrv
+	steamos-xpad-dkms # modified 
 
 https://www.maketecheasier.com/set-up-xbox-one-controller-ubuntu/
 https://askubuntu.com/questions/783587/how-do-i-get-an-xbox-one-controller-to-work-with-16-04-not-steam
 https://github.com/raelgc/ubuntu_xboxdrv
 https://launchpad.net/~rael-gc/+archive/ubuntu/ubuntu-xboxdrv
-
 
 
 # TODO: Verify entire system works including radio shit + xbox controller input
