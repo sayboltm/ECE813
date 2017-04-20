@@ -1,0 +1,37 @@
+# Notes 4-20-17
+
+see ch12, p341
+priority inversion
+
+	preemption - task is higher priority
+
+Priority ceiling:
+deadlock in the previous example can be prevented by a clever technique called the
+priority ceiling protocol (Sha et al., 1990). In this protocol, every lock or semaphore is
+assigned a priority ceiling equal to the priority of the highest-priority task that can lock it.
+A task τ can acquire a lock a only if the task’s priority is strictly higher than the priority
+ceilings of all locks currently held by other tasks. ( '>' not '>=')
+
+
+
+Multiprocessor scheduling p344
+Schedule a fixdd finite set of tasks with precedences on a finite number of processors to minimize makespan
+where objective = minimize makespan
+and   constraints = precidences
+
+Hu level scheduling
+Assigns a priority to each task tau based on the level, which is the greatest sum of execution times on a path in the precedence graph from tau to another task with no dependents. Tasks with larger levels have hihger priority
+
+ins fig 12.13 + tree drawing version from last class
+
+
+Scheduling Anomalies
+Assign more processors => makespan should decrease
+
+or reducing exec times of tasks => " " "
+
+or relaxing procedure constraints => " " "
+
+ins fig 12.14
+
+see p12.14 vs middle of page 347 
