@@ -17,4 +17,36 @@ CFclient 2016.4.1
 Ubuntu
 Cfclient 2016.4-95-gb1045f5
 	- Connects
+	- Does not appear to have radio disconnect issues
+	
+DETAILED INFO FROM CFCLIENT
+Cfclient
+Cfclient version: dev
+System: linux
+Python: 3.4.5
+Qt: 5.6.2
+PyQt: 5.6
+
+Interface status
+radio: Crazyradio version 0.53
+UsbCdc: No information available
+udp: None
+serial: None
+
+Input readers
+linuxjsdev (0 devices connected)
+
+Input devices
+None
+
+Crazyflie
+Connected: radio://0/80/2M
+Firmware: 297adc4e1e35 (CLEAN)
+Sensors found
+MS5611: 1
+HMC5883L: 1
+Sensors tests
+MS5611: 1
+MPU6500: 1
+HMC5883L: 1
 	
