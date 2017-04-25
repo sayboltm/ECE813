@@ -160,9 +160,8 @@ https://github.com/bitcraze/crazyflie-clients-python/blob/master/README.md
 # But this says
 https://github.com/bitcraze/crazyflie-clients-python/
 # use pyqt5
-conda install -c anaconda pyqt=5.6.0 ##### THIS IS WHAT BROKE SPYDER
+conda install -c anaconda pyqt=5.6.0
 # NOTE: This broke the version of Spyder that actually works... shit
-yes... shit.
 # it wants pyqt4.6+ but < 5.0
 
 # Run cfclient GUI
@@ -196,35 +195,3 @@ jstest --normal js0
 
 # TODO: Verify entire system works including radio shit + xbox controller input
 	# The two main issues encountered with cfbullshit
-# This is partially resolved. The radio issue appears to be solved, but the
-crazyflie environment is currently broken (but this whole procedure could be
-repeated on the new virtual env). Also Xbox one controller still wouldn't work
-despite supposed out-of-the-box compatibility with Ubuntu 16.04. Joe's BB-070
-GameStop xbox 360 controller worked with relative ease (no major configuration
-that I can recall). Just install jstest and/or jstest-gtk and fire away.
-
-
-Summary of last week or so (week of 4/10-4/21)
-So what happened was all this stuff broke Spyder 2.3.x the version that
-actually works and shows variables in the variable explorer.  I suspect it was
-an incompatibility between PyQt/QT5.6 and old spyder or another version of QT
-but it made spyder segfault and not give any info. Had to uninstall all
-anaconda stuff which broke this. Reinstalling old Anaconda did not help and
-couldn't chase down what was changed that continuously caused the segfault
-even outside of the crazyflie virtual environment. Out of desperation and
-looming computational physics deadlines, the latest anaconda was installed.
-Despite exporting the virtualenv configuration files to recreate it later as
-well as make a physical backup of the virtualenv directories, the virtual
-environment was not successfully recreated from yml because of
-incompatibilities with dependencies installed with the new anaconda.
-Computational physics work was done, but now the cf environment needs fixing.
-
-The new anaconda was removed, and miniconda was installed. This contains only
-conda package manager and Python. Virtual environments are now created for any
-python development. Will consider installing some 'nice' packages that are
-predictable and get along with others (i.e. not QT or generally things that
-are wrappers for C based libraries) like numpy.
-
-# TODO: Fix cfvenv, spyder dev venv is working, but with new spyder which
-sucks and doesn't work properly. CAn't have everything I guess. One day
-reconfig old spyder on other venv. 
