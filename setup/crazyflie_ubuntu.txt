@@ -225,6 +225,11 @@ python development. Will consider installing some 'nice' packages that are
 predictable and get along with others (i.e. not QT or generally things that
 are wrappers for C based libraries) like numpy.
 
+Had to do swap partition thing too.. configure/map swap on linux. Interesting to get real applicaiton of cousework to solve the project
+
 # TODO: Fix cfvenv, spyder dev venv is working, but with new spyder which
 sucks and doesn't work properly. CAn't have everything I guess. One day
 reconfig old spyder on other venv. 
+
+
+# Add invalid values written to radio channel when trying to resolve radio issues
