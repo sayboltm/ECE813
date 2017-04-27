@@ -35,6 +35,8 @@ void procedure1(int arg) {
 // Declared at beginning of code somewhere
 int used_b = 0 // Track use of lock_b so it can be obtained before a
 
+/* This is not actually what the problem is asking. not enough words. Is asking to only check a using lock a but to operate on procedure 2, to lock both. Not was b used at all before, if it was, then lock it. SMH english doesn't seem like author's 1st language. */
+
 void procedure1(int arg; int used_b) {
 	/* Unlike the unacceptable version, this version only gets lock_b if
 	it is likely to be needed because the thread used it in the past */
