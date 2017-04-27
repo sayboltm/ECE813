@@ -186,6 +186,9 @@ https://www.maketecheasier.com/set-up-xbox-one-controller-ubuntu/
 https://askubuntu.com/questions/783587/how-do-i-get-an-xbox-one-controller-to-work-with-16-04-not-steam
 https://github.com/raelgc/ubuntu_xboxdrv
 https://launchpad.net/~rael-gc/+archive/ubuntu/ubuntu-xboxdrv
+https://www.reddit.com/r/linux_gaming/comments/5ehg1v/xbox_one_controller_on_but_doesnt_work/
+# on rpi:
+https://github.com/RetroPie/RetroPie-Setup/issues/1277
 
 # Config xpad
 https://www.howtoforge.com/tutorial/how-to-configure-your-gamepad-on-ubuntu/
@@ -193,6 +196,9 @@ https://www.howtoforge.com/tutorial/how-to-configure-your-gamepad-on-ubuntu/
 # Cool revegr of protocol: http://mpolaczyk.pl/raspberry-pi-series-reverse-engineering-of-joystick-usb-communication-protocol/
 cd /dev/input and check if inputs
 jstest --normal js0
+
+# Note: to check if xpad blacklisted:
+lsmod | grep xpad
 
 # TODO: Verify entire system works including radio shit + xbox controller input
 	# The two main issues encountered with cfbullshit
