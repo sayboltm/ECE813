@@ -170,9 +170,13 @@ cd /path/to/crazyflie-clients-python
 python bin/cfclient # assuming python -V returns a python3 (preferrably 3.4) from your venv
 # BOOM.
 
+##############################################################################
 
 # TODO: setup xbox drv
-
+Known good configs:
+joe's controller
+PowerA 105660
+	weird connector on cable
 ### BONUS: Setting up xbox drivers for controlling CF2 with xbox controller
 instructions got deleted wtf
 
