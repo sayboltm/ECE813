@@ -273,5 +273,5 @@ Had to do swap partition thing too.. configure/map swap on linux. Interesting to
 sucks and doesn't work properly. CAn't have everything I guess. One day
 reconfig old spyder on other venv. 
 
-
+# Add bug about radio sending crazyflie into ceiling
 # Add invalid values written to radio channel when trying to resolve radio issues

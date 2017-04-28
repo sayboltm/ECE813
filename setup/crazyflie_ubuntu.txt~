@@ -105,6 +105,8 @@ alias tb='docker run --rm -it -e "HOST_CW_DIR=${PWD}" -e "CALLING_HOST_NAME=$(ho
 
 	# Normally you have to logout/in to refresh bashrc. Just use:
 	source ~/.bashrc
+		Note: Using this will jump out of the crazyflie venv
+		source activate crazyflie
 	# This refreshes for current terminal. So run in the one you want to useor open a new one
 	
 	# tb test now gets permission denied because not root
@@ -144,7 +146,11 @@ lsusb
 sudo apt-get install python3 python3-pip python3-pyqt4 python3-zmq python3-pyqtgraph
 sudo pip3 install pyusb==1.0.0b2
 sudo pip3 install appdirs
-
+Setting up this damn crazyflie with details:
+NOTE: When respawning (just nuked anaconda):
+	# already had python3-zmq somehow
+	Just pip install pyusb==1.0.0b2
+	conda install appdirs (installed v 1.4.0-py34_0 automatically)
 # Might have to just use pip (no sudo) since inside venv
 # Check with:
 pip freeze
@@ -152,6 +158,7 @@ pip freeze
 # OR USE CONDA. There is no consistency in CF documentation.
 # Had issues installing those dependencies because the Anaconda3 folder was
 # owned by root. Permission denied. Had to use chown to change to usr mike
+	I suspect this was from calling theInstaller*.sh from root because seemed necessary but was not
 
 # Beware conflicting documentation!!!!!! WTAF
 # Above is from::
@@ -170,8 +177,37 @@ cd /path/to/crazyflie-clients-python
 python bin/cfclient # assuming python -V returns a python3 (preferrably 3.4) from your venv
 # BOOM.
 
+On respawn this bitches about no pyqt5 wtaf
+But could not install pyqt=5.6 bc doesn't like python3.4.
+conda install python=3.5
+pip install -e /path/tocrazyflieclientspython/
+conda install pyqt.. installed qt5.6 shit
+AAAND segfault! I think something is jacked with qt5.6. This happened with spyder too.
+
+############################################################################33
+# Alright new venv
+conda create -n crazyflie2
+conda install pip
+pip install -e ./ (pwd = cf-cleints-ython)
+	Error no pyqt5
+conda install pyqt
+	holy shit it works.... was that all have to do?????
+export this config right now.
+(crazyflie2)$: conda env export > crazyflie2_working.yml
+
+TODO: ask attofnel how to test LED or order new one
+
+Try spyder old:
+conda create -n spyder2Dev python=3.5.1 spyder=2.3.8
+nope just segfaults. swear it used to work
+delete it. fuck it
+##############################################################################
 
 # TODO: setup xbox drv
+Known good configs:
+Gamestop BB-070 (Joe's controller)
+PowerA 105660 (Michelle's controller
+PowerA 106102-FR (one I got to replace it at meijer)
 
 ### BONUS: Setting up xbox drivers for controlling CF2 with xbox controller
 instructions got deleted wtf
@@ -187,7 +223,8 @@ https://askubuntu.com/questions/783587/how-do-i-get-an-xbox-one-controller-to-wo
 https://github.com/raelgc/ubuntu_xboxdrv
 https://launchpad.net/~rael-gc/+archive/ubuntu/ubuntu-xboxdrv
 https://www.reddit.com/r/linux_gaming/comments/5ehg1v/xbox_one_controller_on_but_doesnt_work/
-
+# on rpi:
+https://github.com/RetroPie/RetroPie-Setup/issues/1277
 
 # Config xpad
 https://www.howtoforge.com/tutorial/how-to-configure-your-gamepad-on-ubuntu/
@@ -230,6 +267,11 @@ python development. Will consider installing some 'nice' packages that are
 predictable and get along with others (i.e. not QT or generally things that
 are wrappers for C based libraries) like numpy.
 
-# TODO: Fix cfvenv, spyder dev venv is working, but with new spyder which
+Had to do swap partition thing too.. configure/map swap on linux. Interesting to get real applicaiton of cousework to solve the project
+
+# Resolved: Fix cfvenv, spyder dev venv is working, but with new spyder which
 sucks and doesn't work properly. CAn't have everything I guess. One day
 reconfig old spyder on other venv. 
+
+
+# Add invalid values written to radio channel when trying to resolve radio issues
