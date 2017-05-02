@@ -1,0 +1,9 @@
+CFClient settings
+
+Max angle/rate 30
+Max yaw angle/rate 200
+max thrust 80
+min thrust 25
+
+slew limit 45
+thrust lowering slewrate 30 
