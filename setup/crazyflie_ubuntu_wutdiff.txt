@@ -1,0 +1,277 @@
+# Setting up crazyflie V2.0 
+
+https://github.com/bitcraze/crazyflie-clients-python/blob/develop/README.md
+
+# Fork crazyflie-clients-python (web interface)
+# Clone
+git clone gh-sayboltm:sayboltm/crazyflie-clients-python.git
+
+# Install the cflib in editable mode
+	# Check version to know if pip is for python 2 or 3
+	pip -V
+	# If pip for python 3, continue
+# pip install -e path/to/cflib   
+pip install -e ~/GitHub/sayboltm/crazyflie-clients-python
+
+# Uninstall the cflib (why?)
+pip uninstall cflib
+
+# TODO: Clarify: This probs needs to be installed in virtualenv bc sudo pip bad
+
+# Attempting alternate install using conda venvs instead of virtualenv
+# TODO: conda update conda flips a shit. fix/figure out. Proceeding with 3.19.1
+
+# Create a venv with conda
+conda create -n yourenvname python=x.x
+#conda create -n crazyflie python=3.5.1
+conda create -n crazyflie python=3.4 numpy=1.10.1 pyqt pyqtgraph
+# NOTE: python3.4 because for WINDOWS, py2exe not supported yet. confirm working on later python on linux.
+
+# Activate
+source activate crazyflie
+
+### Now we can actually do the cflib install
+# https://github.com/bitcraze/crazyflie-clients-python/blob/master/README.md
+	# https://github.com/bitcraze/crazyflie-lib-python
+
+# Testing with docker and the toolbelt
+# Check toolbelt
+tb test
+	# Install toolbelt
+	#https://wiki.bitcraze.io/projects:dockerbuilderimage:index
+	
+		# Install Docker to contain the toolbelt
+		#https://docs.docker.com/engine/installation/linux/ubuntu/#install-from-a-package
+		
+		# 1. Install packages to allow apt to use repo over https:
+		sudo apt-get install \
+		    apt-transport-https \
+		    ca-certificates \
+		    curl \
+		    software-properties-common
+		# NOTE: Was already latest version, didn't do anything
+
+		# 2. Add Docker's GPG key	
+		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+		# Returns: 'OK'
+			# Verify fingerprint from website
+			sudo apt-key fingerprint 0EBFCD88
+
+		# 3. Setup a stable repository
+			# amd64: (armhf also available)
+			sudo add-apt-repository \
+   				"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   				$(lsb_release -cs) \
+   				stable"
+
+		# Install Docker
+		# 1. Update apt package index
+		sudo apt-get update
+		
+		# 2. Install latest version of docker
+		sudo apt-get install docker-ce # docker-ee for enterprise
+
+		# 2.5 OR for production systems, use specific version
+		sudo apt-get install docker-ce=<VERSION>
+
+		# Version used at time of this writing:
+		# docker-ce_17.03.1~ce-0~ubuntu-xenial_amd64.deb
+		# 17.03.1~ce-0~ubuntu-xenial
+
+		# 4. Verify that Docker CE is working using hellow-world image
+		sudo docker run hello-world
+
+		# NOTE: need to use sudo to run docker commands
+		# If undesired see:
+		https://docs.docker.com/engine/installation/linux/linux-postinstall/
+		
+		# To update Docker:
+		sudo apt-get update
+		# follow this:
+		https://docs.docker.com/engine/installation/linux/ubuntu/#install-docker
+	# Back to toolbelt, now that we have docker
+	# The only installation required is to add an alias to .profile or .bashrc so that commands are in your $PATH (just type into terminal and they run)
+	docker run --rm -it bitcraze/toolbelt
+	# Had to use sudo. Security issue?
+
+	# tb test still doesn't work. Continue.
+
+	# actually add the alias:
+
+		# Open ~/.bashrc and paste:
+# Added manually for crazyflie use/dev
+alias tb='docker run --rm -it -e "HOST_CW_DIR=${PWD}" -e "CALLING_HOST_NAME=$(hostname)" -e "CALLING_UID"=$UID -e "CALLING_OS"=$(uname) -v ${PWD}:/tb-module -v ${HOME}/.ssh:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock bitcraze/toolbelt'
+
+		# This is what the program was telling you to add to add alias
+
+	# Normally you have to logout/in to refresh bashrc. Just use:
+	source ~/.bashrc
+		Note: Using this will jump out of the crazyflie venv
+		source activate crazyflie
+	# This refreshes for current terminal. So run in the one you want to useor open a new one
+	
+	# tb test now gets permission denied because not root
+	# but don't want to use root bc infosec vuln
+	# Set udev permissions (for linux)
+	# TODO: Something is wrong here, need udev for usbplug .. and this?
+
+	# TODO: tb doesn't work properly
+		# Alias appears to be setup correctly despite error about it not
+		# when running docker run --rm -it bitcraze/toolbelt
+		# But tb -V works (???)
+		# Won't run tb test, tb verify, returns:
+		Error: Don't know how to execute <test|verify>
+
+	# TODO: stuff with Tox
+
+# Set udev (USB device) permission/behavior so can use USB Radio without root
+# this is done by adding your normal usr to grp plugdev, then adding a rule
+# in udev to allow access to users in grp plugdev
+sudo groupadd plugdev
+sudo usermod -a -G plugdev <username>
+# i.e.: sudo usermod -a -G plugdev mike
+# Might already be in there
+groups mike
+
+# Create and/or add the following rule to /etc/udev/rules.d/99-crazyradio.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1915", ATTRS{idProduct}=="7777", MODE="0664", GROUP="plugdev"
+
+# Create and/or add the following rule to /etc/udev/rules.d/99-crazyflie.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0664", GROUP="plugdev"
+# That one is for plugging in the crazyflie to usb
+# MAKE SURE TYPED CORRECTLY ELSE CFCLIENT WON'T SEE RADIO/CRAZYFLIE
+# To view usb devices and see where some of those numbers come from:
+lsusb
+
+# Install extra dependencies
+sudo apt-get install python3 python3-pip python3-pyqt4 python3-zmq python3-pyqtgraph
+sudo pip3 install pyusb==1.0.0b2
+sudo pip3 install appdirs
+Setting up this damn crazyflie with details:
+NOTE: When respawning (just nuked anaconda):
+	# already had python3-zmq somehow
+	Just pip install pyusb==1.0.0b2
+	conda install appdirs (installed v 1.4.0-py34_0 automatically)
+# Might have to just use pip (no sudo) since inside venv
+# Check with:
+pip freeze
+
+# OR USE CONDA. There is no consistency in CF documentation.
+# Had issues installing those dependencies because the Anaconda3 folder was
+# owned by root. Permission denied. Had to use chown to change to usr mike
+	I suspect this was from calling theInstaller*.sh from root because seemed necessary but was not
+
+# Beware conflicting documentation!!!!!! WTAF
+# Above is from::
+https://github.com/bitcraze/crazyflie-clients-python/blob/master/README.md
+
+# But this says
+https://github.com/bitcraze/crazyflie-clients-python/
+# use pyqt5
+conda install -c anaconda pyqt=5.6.0 ##### THIS IS WHAT BROKE SPYDER
+# NOTE: This broke the version of Spyder that actually works... shit
+yes... shit.
+# it wants pyqt4.6+ but < 5.0
+
+# Run cfclient GUI
+cd /path/to/crazyflie-clients-python
+python bin/cfclient # assuming python -V returns a python3 (preferrably 3.4) from your venv
+# BOOM.
+
+On respawn this bitches about no pyqt5 wtaf
+But could not install pyqt=5.6 bc doesn't like python3.4.
+conda install python=3.5
+pip install -e /path/tocrazyflieclientspython/
+conda install pyqt.. installed qt5.6 shit
+AAAND segfault! I think something is jacked with qt5.6. This happened with spyder too.
+
+############################################################################33
+# Alright new venv
+conda create -n crazyflie2
+conda install pip
+pip install -e ./ (pwd = cf-cleints-ython)
+	Error no pyqt5
+conda install pyqt
+	holy shit it works.... was that all have to do?????
+
+
+TODO: ask attofnel how to test LED or order new one
+
+Try spyder old:
+conda create -n spyder2Dev python=3.5.1 spyder=2.3.8
+nope just segfaults. swear it used to work
+delete it. fuck it
+##############################################################################
+
+# TODO: setup xbox drv
+Known good configs:
+Gamestop BB-070 (Joe's controller)
+PowerA 105660 (Michelle's controller
+PowerA 106102-FR (one I got to replace it at meijer)
+
+### BONUS: Setting up xbox drivers for controlling CF2 with xbox controller
+instructions got deleted wtf
+
+There are a few drivers available for the controller
+	xpad # default driver
+	xboxdrv # xbox driver
+	ubuntu-xboxdrv # enhanced ubuntu xboxdrv
+	steamos-xpad-dkms # modified 
+
+https://www.maketecheasier.com/set-up-xbox-one-controller-ubuntu/
+https://askubuntu.com/questions/783587/how-do-i-get-an-xbox-one-controller-to-work-with-16-04-not-steam
+https://github.com/raelgc/ubuntu_xboxdrv
+https://launchpad.net/~rael-gc/+archive/ubuntu/ubuntu-xboxdrv
+https://www.reddit.com/r/linux_gaming/comments/5ehg1v/xbox_one_controller_on_but_doesnt_work/
+# on rpi:
+https://github.com/RetroPie/RetroPie-Setup/issues/1277
+
+# Config xpad
+https://www.howtoforge.com/tutorial/how-to-configure-your-gamepad-on-ubuntu/
+
+# Cool revegr of protocol: http://mpolaczyk.pl/raspberry-pi-series-reverse-engineering-of-joystick-usb-communication-protocol/
+cd /dev/input and check if inputs
+jstest --normal js0
+
+# Note: to check if xpad blacklisted:
+lsmod | grep xpad
+
+# TODO: Verify entire system works including radio shit + xbox controller input
+	# The two main issues encountered with cfbullshit
+# This is partially resolved. The radio issue appears to be solved, but the
+crazyflie environment is currently broken (but this whole procedure could be
+repeated on the new virtual env). Also Xbox one controller still wouldn't work
+despite supposed out-of-the-box compatibility with Ubuntu 16.04. Joe's BB-070
+GameStop xbox 360 controller worked with relative ease (no major configuration
+that I can recall). Just install jstest and/or jstest-gtk and fire away.
+
+
+Summary of last week or so (week of 4/10-4/21)
+So what happened was all this stuff broke Spyder 2.3.x the version that
+actually works and shows variables in the variable explorer.  I suspect it was
+an incompatibility between PyQt/QT5.6 and old spyder or another version of QT
+but it made spyder segfault and not give any info. Had to uninstall all
+anaconda stuff which broke this. Reinstalling old Anaconda did not help and
+couldn't chase down what was changed that continuously caused the segfault
+even outside of the crazyflie virtual environment. Out of desperation and
+looming computational physics deadlines, the latest anaconda was installed.
+Despite exporting the virtualenv configuration files to recreate it later as
+well as make a physical backup of the virtualenv directories, the virtual
+environment was not successfully recreated from yml because of
+incompatibilities with dependencies installed with the new anaconda.
+Computational physics work was done, but now the cf environment needs fixing.
+
+The new anaconda was removed, and miniconda was installed. This contains only
+conda package manager and Python. Virtual environments are now created for any
+python development. Will consider installing some 'nice' packages that are
+predictable and get along with others (i.e. not QT or generally things that
+are wrappers for C based libraries) like numpy.
+
+Had to do swap partition thing too.. configure/map swap on linux. Interesting to get real applicaiton of cousework to solve the project
+
+# Resolved: Fix cfvenv, spyder dev venv is working, but with new spyder which
+sucks and doesn't work properly. CAn't have everything I guess. One day
+reconfig old spyder on other venv. 
+
+# Add bug about radio sending crazyflie into ceiling
+# Add invalid values written to radio channel when trying to resolve radio issues

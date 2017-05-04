@@ -1,0 +1,8 @@
+"crazyflie_ubuntu.txt" 278L, 11230C
+Using swap file ".crazyflie_ubuntu.txt.swp"
+Original file "~/GitHub/sayboltm/ECE813/setup/crazyflie_ubuntu.txt"
+Recovery completed. You should check if everything is OK.
+(You might want to write out this file under another name
+and run diff with the original file to check for changes)
+You may want to delete the .swp file now.
+
