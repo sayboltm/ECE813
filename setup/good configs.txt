@@ -2,11 +2,17 @@ CFclients:
 https://github.com/bitcraze/crazyflie-clients-python/releases
 
 ### Windows ###
+CFclient 2017.04 #Atoffnel says winbug fixed
+	- connects
+	- detects xb1 controller as random xinput (fine w/e)
+	- console does not display anything
+
 Cfclient 2014.01.0 # the 2014 edition, Windows
 	- Connects
 	- Detects xb1 controller
 	- But, as of late, weird connection/lag issue with CF regardless of environment
 		- Might be FW issue
+	- This issue has gone away for win 7 at least
 
 CFclient 2016.4.1
 	- Connects

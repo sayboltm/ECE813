@@ -1,4 +1,4 @@
-CFClient settings
+CFClient settings on ubuntu:
 
 Max angle/rate 30
 Max yaw angle/rate 200
@@ -7,3 +7,31 @@ min thrust 25
 
 slew limit 45
 thrust lowering slewrate 30 
+
+
+Settings on windows 2014 version with xb1 controller awesome flight
+# SAME. so crap PowerA controller or something else is bad flight experience on linux. Like weird issues mapping trigger to thrust
+Max angle/rate 30
+Max yaw angle/rate 200
+max thrust 80
+min thrust 25
+
+slew limit 45
+thrust lowering slewrate 30 
+
+An attempt to reverse engineer these features:
+Max angle/rate: as it sounds, your 'look speed'
+Max Yaw angle/rate: your 'turn speed'
+Max thrust (%): Duh. Note this is good to limit to figure out what it takes to takeoff with differnet payloads
+Min Thrust (%): Duh. Don't turn up too much, else can't land.
+SlewLimit: I presume to be an acceleration of sorts. Not figured out.
+Thrust lowering slewrate (%/sec): I presume to be mandatory keeping of thrust once you back off the throttle. Test moar.
+
+
+Supposed better flying:
+Max angle/rate 30
+Max Yaw angle/rate 200
+Max thrust 70
+Min thrust 25
+SlewLimit 45
+Thrust lowering slewrate 30

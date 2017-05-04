@@ -25,6 +25,7 @@ pip uninstall cflib
 conda create -n yourenvname python=x.x
 #conda create -n crazyflie python=3.5.1
 conda create -n crazyflie python=3.4 numpy=1.10.1 pyqt pyqtgraph
+# NOTE: python3.4 because for WINDOWS, py2exe not supported yet. confirm working on later python on linux.
 
 # Activate
 source activate crazyflie
