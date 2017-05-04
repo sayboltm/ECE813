@@ -1,0 +1,301 @@
+%\documentclass[12pt]{article}
+%\usepackage{amsmath}
+%\usepackage{graphicx}
+%\usepackage{float}
+%\usepackage[font={small,it}]{caption}
+%\pagenumbering{arabic}
+%
+%%\graphicspath{{./img/}{~/GitHub/sayboltm/PHY480/Project3/Report/img/}}
+%\graphicspath{{./img/}}
+%
+%% This is a comment
+
+% Attempt at beamer
+\documentclass[t]{beamer} % top align slides globally
+\usetheme{Boadilla}
+\usepackage[T1]{fontenc} % Added later for < > signs
+
+\begin{document}
+
+\begin{frame}
+\title{Setting up for Development of Crazyflie Client}
+\subtitle{Procedure and analysis of challenges encountered}
+\author{Michael Saybolt, Joe Fabbo}
+\institute{Michigan State University}
+%\date{\today}
+\date{5/4/2017}
+\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Outline}
+	\tableofcontents
+\end{frame}
+
+\section{Introduction}
+\subsection{Motivation}
+\begin{frame}
+	\frametitle{Introduction.Motivation}
+	\begin{itemize}
+		\item{Why Crazyflie?}
+		\begin{itemize}
+			\item Modular, open source development platform
+			\item Very accurate sensors
+			\item Active development community
+			\item Scattered documentation, but this presentation and report aim to fix that
+		\end{itemize}
+	\end{itemize} %TODO: Put an image of crazyflie here
+\end{frame}
+
+\subsection{Development Background}
+\begin{frame} %[t] % Can also put t here for local alignment
+	\frametitle{Introduction.DevelopmentBackground}
+	\begin{itemize}
+		\item{Crazyflie works on Linux, Windows, and Mac}
+		\item{Most developers use Linux}
+		\item VM available for quick setup but native environment works better
+			\begin{itemize}
+				\item Virtualbox USB driver issues
+				\item VM software introduces variables CF devs can't control
+			\end{itemize}
+		\item{This was tested on Ubuntu 16.04 LTS AMD64}
+		\item Crazyflie Client 2016.4 (though new versions should work)
+	\end{itemize}
+\end{frame}
+
+\section{Setup}
+\subsection{Software Package Requirements}
+\begin{frame}
+	\frametitle{Software Package Requirments}
+	\begin{itemize}
+		\item Git
+			\begin{itemize}
+				\item To download and maintain Crazyflie programs
+			\end{itemize}
+		\item Python virtual environment
+			\begin{itemize}
+				\item Dependency management
+			\begin{itemize}
+				\item Anaconda virtual environment
+				\item virtualenv
+			\end{itemize}
+			\end{itemize}
+		\item Docker
+			\begin{itemize}
+				\item Vitual environment outside of Python
+				\item Used for installation and use of Bitcraze toolbelt
+				\item Ensures same compilers are used for compiling Windows binaries, potentially Android/iOS, or firmware
+				\item Shouldn't be needed for development of CF Client
+				\item For more information see:
+				\item https://github.com/bitcraze/toolbelt
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\section{Procedure for Basic Development}
+\begin{frame}
+	\frametitle{Procedure for Basic Development}
+	\begin{itemize}
+		\item (Optional) Install Docker/toolbelt
+		\item Fork/clone crazyflie-clients-python from GitHub
+			\begin{semiverbatim}
+			\ git clone https://github.com/bitcraze/crazyflie-clients-python
+			\end{semiverbatim}
+		\item Set up Python virtual environment
+		\item Install necessary dependencies
+		\item Set udev permissions
+		\item Run Crazyflie client, you can modify the source code
+	\end{itemize}
+\end{frame}
+
+\subsection{Setting up Python Virtual Environment}
+\begin{frame}
+	\frametitle{Setting up Python Virtual Environment}
+	\begin{itemize}
+		\item Most of the documentation states to use virtualenv
+		\begin{itemize}
+			\item Contains dependencies installed with pip, a Python package manager in an isolated environment
+			\item Pip struggles to install some dependencies needed to run the CF client
+		\end{itemize}
+		\item Solution: use Anaconda/Miniconda
+		\begin{itemize}
+			\item Anaconda is a Python suite including Python, conda, a python package manager, and many useful Python packages	
+			\item Conda package manager handles finnicky package installs better than pip
+			\item Conda also has an implementation of virtual environments that can handle packages installed with conda as well as pip 
+			\item Some preconfigured packages in Anaconda don't play nice with the required ones for cfclient
+			\item Miniconda contains just Python and conda
+			\item Miniconda can be used to setup 'naked' conda virtual environments and install only what is needed and works
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Setting up Python Virtual environment (cont.)}
+	\begin{itemize}
+		\item Download and install latest Miniconda setup
+		\begin{itemize}
+			\item It should add an alias to the 'conda' command in your .bashrc
+			\item This lets you run conda from any folder by typing 'conda'
+		\end{itemize}			
+		\item Create a conda virtual environment for the CF Client install and development
+		\begin{itemize}
+			\item Name it something useful, like 'crazyfliedev'
+		\end{itemize}
+			\begin{semiverbatim}
+			\ conda create -n crazyfliedev
+			\end{semiverbatim}
+		\item Your conda empty virtual environment is now ready for dependency installation
+	\end{itemize}
+\end{frame}
+
+\subsection{Install dependencies}
+\begin{frame}
+	\frametitle{Installing Dependencies}
+	\begin{itemize}	
+		\item Hard work of solving proper dependencies can be summed up
+		\item .. Into a conda virtual environment configuration file!
+		\item Simply clone (or view/search) this github repository:
+			\begin{semiverbatim}
+			\ git clone https://github.com/sayboltm/ECE813.git
+			\end{semiverbatim} 
+		\begin{itemize}
+			\item Locate File:
+			\item ECE813/environments/crazyflie.yml	
+			\item Create a new conda virtual environment from file!
+				\begin{semiverbatim}
+				\ conda env create -f crazyflie.yml
+				\end{semiverbatim}
+			\item Activate it:	
+				\begin{semiverbatim}
+				\ source activate crazyflie
+				\end{semiverbatim}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Installing Dependencies (cont.)}
+	\begin{itemize}
+		\item Else, (say, in case of failure to run CF client with those dependencies included in crazyflie.yml)
+		\begin{itemize}
+			\item Activate previously created 'naked' environment
+			\begin{semiverbatim}
+			\ source activate crazyfliedev
+			\end{semiverbatim}
+			\item Run setup file
+			\begin{semiverbatim}
+			\ cd /path/to/crazyflie-clients-python/
+			\end{semiverbatim}
+			\begin{semiverbatim}
+			\ python setup.py
+			\end{semiverbatim}
+
+		\end{itemize}
+		\item Install any dependencies inside your conda virtual environment
+		\item Deactivate the virtual environment when not needed
+			\begin{semiverbatim}
+			\ source deactivate
+			\end{semiverbatim}
+		\item Any modification or use of the CFC will require the environment to be active
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Setting USB Device (udev) permissions}
+	\begin{itemize}
+		\item Setting udev permissions allows access to usb devices without root permissions
+		\item It is bad practice to use root unless absolutely necessary
+		\item Crazyflie development is not a good reason
+		\item Add yourUsername to group plugdev if it is not already
+		\begin{itemize}
+			\item Check to see what groups you are in	
+				\begin{semiverbatim}
+				\ groups yourUsername
+				\end{semiverbatim}
+			\item Add yourself or create and add if needed
+				\begin{semiverbatim}
+				\ sudo groupadd plugdev
+				\end{semiverbatim}
+				\begin{semiverbatim}
+				\ sudo usermod -a -G plugdev yourUsername
+				\end{semiverbatim}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\section{I Broke It}
+\begin{frame}
+	\frametitle{I broke it}
+	\begin{itemize}
+		\item Adding or upgrading dependencies can break others
+		\item Importance in using virtual Python environments
+		\item Easy to save, recreate old environment
+		\item Recommended that you create a new virtual environment when upgrading
+		\item Pull the latest Crazyflie client, then use pip to install any new dependencies
+			\begin{semiverbatim}
+			\ cd /path/to/crazyflie-clients-python/
+			\end{semiverbatim}
+			\begin{semiverbatim}
+			\ git pull
+			\end{semiverbatim}
+			\begin{semiverbatim}
+			\ pip install -e ./
+			\end{semiverbatim}
+      \end{itemize}
+\end{frame}
+
+\section{To Do}
+\begin{frame}
+	\frametitle{To Do}
+	\begin{itemize}
+		\item Fix Toolbelt setup
+		\item Do some development with the CF Client
+		\begin{itemize}
+			\item ZMQ backend allows for external input to the CF Client without needing to understand much of the CF Client source code
+			\item Source code is Python so easy to read anyways
+			\item Implement supplemental reactive learning
+			\item Implement local positioning project
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\section{Software Challenges}
+\begin{frame}
+	\frametitle{Challenges: Sounds easy right?}
+	\begin{itemize}
+		\item Python wrapped C libraries are finnicky
+			\begin{itemize}
+				\item E.g. QT 
+				\item Updating QT for latest CFClient causes your Python-based IDE to segfault (underlying C implementation issue)
+			\end{itemize}
+		\item Different versions of Python can also create issues
+			\begin{itemize}
+				\item py2exe not supported on Python > 3.4
+				\item QT5 requires Python > 3.4
+				\item Latest CFClient requires QT5
+				\item Conflict breaks environment used for other projects/classes
+				\item Must fix Crazyflie dev environment and tools for other coursework, find way for them to coexist
+			\end{itemize}
+		\item Hence need for easy to use virtual environments
+			\begin{itemize}
+				\item conda virtual environments > virtualenv
+			\end{itemize}
+		\item Documentation is scattered, lots of trial and error
+			\begin{itemize}
+				\item Still recommends virtualenv
+				\item Conda virtual environments are superior
+				\item Conda > pip for package management
+				\item Conda env handles conda and pip managed packages
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{}
+\end{frame}
+
+\begin{semiverbatim}
+\end{semiverbatim}
+
+\end{document}
