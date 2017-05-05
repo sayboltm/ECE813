@@ -1,0 +1,3 @@
+running preprocess -DFORMAT=pandoc -DDEVICE=screen -DSLIDE_TYPE="remark" -DSLIDE_THEME="light" ECE813_report.do.txt > tmp_preprocess__ECE813_report.do.txt
+translating doconce text in tmp_preprocess__ECE813_report.do.txt to pandoc
+output in ECE813_report.md

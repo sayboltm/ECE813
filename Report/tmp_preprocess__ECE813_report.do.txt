@@ -1,0 +1,385 @@
+# \documentclass[12pt]{article}
+# \usepackage{amsmath}
+# \usepackage{graphicx}
+# \usepackage{float}
+# \usepackage[font={small,it}]{caption}
+# \pagenumbering{arabic}
+
+# \graphicspath{{./img/}{ /GitHub/sayboltm/PHY480/Project3/Report/img/}}
+# \graphicspath{{./img/}}
+
+#  This is a comment
+
+# %%%% Attempt at beamer
+# \documentclass[t]{beamer} % [t] top align slides globally
+# \documentclass[xcolor=dvipsnames]{beamer} % [xcolor] thing to adjust color for msu theme
+\documentclass[t, xcolor=dvipsnames]{beamer} % Custom color and top centered
+
+# %%%%%% Theme experimentation
+# \usetheme{Boadilla}
+# \usetheme{Structure}
+\usetheme{default}
+\usepackage[T1]{fontenc} % Added later for < > signs
+\usebackgroundtemplate{\includegraphics[width=\paperwidth]{./MSUbak.PNG}}
+
+# %% Color config
+# \setbeamercolor{normal text}{fg=black, bg=white}
+
+\makeatletter
+# \definecolor{beamer@blendedblue}{rgb}{0.5,0.5,0.3} % default
+# \definecolor{beamer@blendedblue}{rgb}{1,1,1} % this is title/bullets
+\definecolor{beamer@blendedblue}{rgb}{0,0,0} % black
+# \definecolor{beamer@blendedblue}{rgb}{23/69,69/69,59/69} % Attempt green
+# \definecolor{beamer@blendedblue}{rgb}{.333,1,.855} % Attempt green 2 
+#  MSU COLOR: {rgb}{hsl}{23,69,59}{111,120,43}
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{alerted text}{fg=red}
+\setbeamercolor{example text}{fg=green!50!black}
+
+\setbeamercolor{structure}{fg=beamer@blendedblue} % Thisis the custom color insert
+
+\setbeamercolor{background canvas}{parent=normal text}
+\setbeamercolor{background}{parent=background canvas}
+
+\setbeamercolor{palette primary}{fg=yellow,bg=yellow} 
+\setbeamercolor{palette secondary}{use=structure,fg=structure.fg!100!green}
+\setbeamercolor{palette tertiary}{use=structure,fg=structure.fg!100!green} 
+\makeatother
+
+
+
+
+
+\begin{frame}
+TITLE: Crazyflie Adventures: 2.0 Edition
+\subtitle{Analysis and setup}
+AUTHOR: Michael Saybolt, Joe Fabbo
+\institute{Michigan State University}
+# \date{\today}
+\date{5/4/2017}
+\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Outline}
+	\tableofcontents
+\end{frame}
+
+======= Introduction =======
+===== Motivation =====
+\begin{frame}
+	\frametitle{Introduction.Motivation}
+
+  * {Why Crazyflie?}
+
+  * Modular, open source development platform
+
+  * Very accurate sensors
+
+  * Active development community
+
+  * Scattered documentation, but this presentation and report aim to fix that
+
+
+
+\end{frame}
+
+===== Development Background =====
+\begin{frame} %[t] % Can also put t here for local alignment
+	\frametitle{Introduction.DevelopmentBackground}
+
+  * {Crazyflie works on Linux, Windows, and Mac}
+  * {Most developers use Linux}
+
+
+  * Virtualbox USB driver issues
+
+  * VM software introduces variables CF devs can't control
+
+
+		\item{This was tested on Ubuntu 16.04 LTS AMD64}
+		\item Crazyflie Client 2016.4 (though new versions should work) 	
+
+
+\end{frame}
+
+======= Setup =======
+===== Software Package Requirements =====
+\begin{frame}
+	\frametitle{Software Package Requirments}
+
+
+
+  * To download and maintain Crazyflie programs
+
+
+
+
+
+
+  * Anaconda virtual environment
+
+  * virtualenv
+
+
+
+
+
+  * Vitual environment outside of Python
+
+  * Used for installation and use of Bitcraze toolbelt
+
+  * Ensures same compilers are used for compiling Windows binaries, potentially Android/iOS, or firmware
+
+  * Shouldn't be needed for development of CF Client
+
+  * For more information see:
+
+  * https://github.com/bitcraze/toolbelt
+
+
+
+\end{frame}
+
+======= Procedure for Basic Development =======
+\begin{frame}
+	\frametitle{Procedure for Basic Development}
+
+  * (Optional) Install Docker/toolbelt
+
+  * Fork/clone crazyflie-clients-python from GitHub 			\begin{semiverbatim} 			\ git clone https://github.com/bitcraze/crazyflie-clients-python
+
+\end{semiverbatim}
+  * Set up Python virtual environment
+
+  * Install necessary dependencies
+
+  * Set udev permissions
+
+  * Run Crazyflie client, you can modify the source code
+
+
+\end{frame}
+
+===== Setting up Python Virtual Environment =====
+\begin{frame}
+	\frametitle{Setting up Python Virtual Environment}
+
+
+
+  * Contains dependencies installed with pip, a Python package manager in an isolated environment
+
+  * Pip struggles to install some dependencies needed to run the CF client
+
+
+
+
+  * Anaconda is a Python suite including Python, conda, a python package manager, and many useful Python packages
+
+  * Conda package manager handles finnicky package installs better than pip
+
+  * Conda also has an implementation of virtual environments that can handle packages installed with conda as well as pip
+
+  * Some preconfigured packages in Anaconda don't play nice with the required ones for cfclient
+
+  * Miniconda contains just Python and conda
+
+  * Miniconda can be used to setup 'naked' conda virtual environments and install only what is needed and works
+
+
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Setting up Python Virtual environment (cont.)}
+
+
+
+  * It should add an alias to the 'conda' command in your .bashrc
+
+  * This lets you run conda from any folder by typing 'conda'
+
+
+
+
+  * Name it something useful, like 'crazyfliedev'
+
+
+			\begin{semiverbatim}
+			\ conda create -n crazyfliedev
+			\end{semiverbatim}
+		\item Your conda empty virtual environment is now ready for dependency installation 	
+
+
+\end{frame}
+
+===== Install dependencies =====
+\begin{frame}
+	\frametitle{Installing Dependencies}
+
+  * Hard work of solving proper dependencies can be summed up
+
+  * .. Into a conda virtual environment configuration file!
+
+  * Simply clone (or view/search) this github repository: 			\begin{semiverbatim} 			\ git clone https://github.com/sayboltm/ECE813.git
+
+\end{semiverbatim} 
+
+  * Locate File:
+
+  * ECE813/environments/crazyflie.yml
+
+  * Create a new conda virtual environment from file! 				\begin{semiverbatim} 				\ conda env create -f crazyflie.yml
+
+\end{semiverbatim}
+  * Activate it:	 				\begin{semiverbatim} 				\ source activate crazyflie
+
+\end{semiverbatim}
+
+
+\end{frame}
+\begin{frame}
+	\frametitle{Installing Dependencies (cont.)}
+
+
+
+  * Activate previously created 'naked' environment 			\begin{semiverbatim} 			\ source activate crazyfliedev
+
+\end{semiverbatim}
+  * Run setup file 			\begin{semiverbatim} 			\ cd /path/to/crazyflie-clients-python/
+
+\end{semiverbatim}
+			\begin{semiverbatim}
+			\ python setup.py
+			\end{semiverbatim}
+
+
+		\item Install any dependencies inside your conda virtual environment 		
+
+\item Deactivate the virtual environment when not needed 			\begin{semiverbatim} 			\ source deactivate 			
+
+\end{semiverbatim}
+		\item Any modification or use of the CFC will require the environment to be active 	
+
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Setting USB Device (udev) permissions}
+
+  * Setting udev permissions allows access to usb devices without root permissions
+
+  * It is bad practice to use root unless absolutely necessary
+
+  * Crazyflie development is not a good reason
+
+
+
+  * Check to see what groups you are in	 				\begin{semiverbatim} 				\ groups yourUsername
+
+\end{semiverbatim}
+  * Add yourself or create and add if needed 				\begin{semiverbatim} 				\ sudo groupadd plugdev
+
+\end{semiverbatim}
+				\begin{semiverbatim}
+				\ sudo usermod -a -G plugdev yourUsername
+				\end{semiverbatim}
+
+
+\end{frame}
+
+======= I Broke It =======
+\begin{frame}
+	\frametitle{I broke it}
+
+  * Adding or upgrading dependencies can break others
+
+  * Importance in using virtual Python environments
+
+  * Easy to save, recreate old environment
+
+  * Recommended that you create a new virtual environment when upgrading
+
+  * Pull the latest Crazyflie client, then use pip to install any new dependencies 			\begin{semiverbatim} 			\ cd /path/to/crazyflie-clients-python/
+
+\end{semiverbatim}
+			\begin{semiverbatim}
+			\ git pull
+			\end{semiverbatim}
+			\begin{semiverbatim}
+			\ pip install -e ./
+			\end{semiverbatim}
+
+\end{frame}
+
+======= To Do =======
+\begin{frame}
+	\frametitle{To Do}
+
+  * Fix Toolbelt setup
+
+
+
+  * ZMQ backend allows for external input to the CF Client without needing to understand much of the CF Client source code
+
+  * Source code is Python so easy to read anyways
+
+  * Implement supplemental reactive learning
+
+  * Implement local positioning project
+
+
+
+\end{frame}
+
+
+======= Software Challenges =======
+\begin{frame}
+	\frametitle{Challenges: Sounds easy right?}
+
+
+
+  * E.g. QT
+
+  * Updating QT for latest CFClient causes your Python-based IDE to segfault (underlying C implementation issue)
+
+
+
+
+  * py2exe not supported on Python > 3.4
+
+  * QT5 requires Python > 3.4
+
+  * Latest CFClient requires QT5
+
+  * Conflict breaks environment used for other projects/classes
+
+  * Must fix Crazyflie dev environment and tools for other coursework, find way for them to coexist
+
+
+
+
+  * conda virtual environments > virtualenv
+
+
+
+
+  * Still recommends virtualenv
+
+  * Conda virtual environments are superior
+
+  * Conda > pip for package management
+
+  * Conda env handles conda and pip managed packages
+
+
+
+\end{frame}
+
+
+# \begin{frame}
+# 	\frametitle{}
+# \end{frame}
+# 
+# \begin{semiverbatim}
+# \end{semiverbatim}
