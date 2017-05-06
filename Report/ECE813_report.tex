@@ -1,74 +1,43 @@
-%\documentclass[12pt]{article}
-%\usepackage{amsmath}
-%\usepackage{graphicx}
-%\usepackage{float}
-%\usepackage[font={small,it}]{caption}
-%\pagenumbering{arabic}
-
-%\graphicspath{{./img/}{~/GitHub/sayboltm/PHY480/Project3/Report/img/}}
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font={small,it}]{caption}
+\pagenumbering{arabic}
+\usepackage[T1]{fontenc} % Added for < > signs to show up
+\graphicspath{{./img/}}
 %\graphicspath{{./img/}}
 
 % This is a comment
 
-%%%%% Attempt at beamer
-%\documentclass[t]{beamer} % [t] top align slides globally
-%\documentclass[xcolor=dvipsnames]{beamer} % [xcolor] thing to adjust color for msu theme
-\documentclass[t, xcolor=dvipsnames]{beamer} % Custom color and top centered
+%\usepackage{verbatim}
 
-%%%%%%% Theme experimentation
-%\usetheme{Boadilla}
-%\usetheme{Structure}
-\usetheme{default}
-\usepackage[T1]{fontenc} % Added later for < > signs
-\usebackgroundtemplate{\includegraphics[width=\paperwidth]{./MSUbak.PNG}}
-
-%%% Color config
-%\setbeamercolor{normal text}{fg=black, bg=white}
-
-\makeatletter
-%\definecolor{beamer@blendedblue}{rgb}{0.5,0.5,0.3} % default
-%\definecolor{beamer@blendedblue}{rgb}{1,1,1} % this is title/bullets
-\definecolor{beamer@blendedblue}{rgb}{0,0,0} % black
-%\definecolor{beamer@blendedblue}{rgb}{23/69,69/69,59/69} % Attempt green
-%\definecolor{beamer@blendedblue}{rgb}{.333,1,.855} % Attempt green 2 
-% MSU COLOR: {rgb}{hsl}{23,69,59}{111,120,43}
-\setbeamercolor{normal text}{fg=black,bg=white}
-\setbeamercolor{alerted text}{fg=red}
-\setbeamercolor{example text}{fg=green!50!black}
-
-\setbeamercolor{structure}{fg=beamer@blendedblue} % Thisis the custom color insert
-
-\setbeamercolor{background canvas}{parent=normal text}
-\setbeamercolor{background}{parent=background canvas}
-
-\setbeamercolor{palette primary}{fg=yellow,bg=yellow} 
-\setbeamercolor{palette secondary}{use=structure,fg=structure.fg!100!green}
-\setbeamercolor{palette tertiary}{use=structure,fg=structure.fg!100!green} 
-\makeatother
-
-
+\usepackage{scrextend} % Added for indentation of 'Note:' type things
+\usepackage{lipsum} % For demo only!
 
 \begin{document}
-
-\begin{frame}
+\title{shit}
+%\begin{frame}
 \title{Crazyflie Adventures: 2.0 Edition}
-\subtitle{Analysis and setup}
+%\subtitle{Analysis and setup}
 \author{Michael Saybolt, Joe Fabbo}
-\institute{Michigan State University}
+%\institute{Michigan State University}
 %\date{\today}
 \date{5/4/2017}
-\titlepage
-\end{frame}
+%\titlepage
+\maketitle
+\pagebreak
+%\end{frame}
 
-\begin{frame}
-	\frametitle{Outline}
+%\begin{frame}
+%	\frametitle{Outline}
 	\tableofcontents
-\end{frame}
+%\end{frame}
+\pagebreak
+
 
 \section{Introduction}
 \subsection{Motivation}
-\begin{frame}
-	\frametitle{Introduction.Motivation}
 	\begin{itemize}
 		\item{Why Crazyflie?}
 		\begin{itemize}
@@ -78,11 +47,8 @@
 			\item Scattered documentation, but this presentation and report aim to fix that
 		\end{itemize}
 	\end{itemize} %TODO: Put an image of crazyflie here
-\end{frame}
 
 \subsection{Development Background}
-\begin{frame} %[t] % Can also put t here for local alignment
-	\frametitle{Introduction.DevelopmentBackground}
 	\begin{itemize}
 		\item{Crazyflie works on Linux, Windows, and Mac}
 		\item{Most developers use Linux}
@@ -94,12 +60,11 @@
 		\item{This was tested on Ubuntu 16.04 LTS AMD64}
 		\item Crazyflie Client 2016.4 (though new versions should work)
 	\end{itemize}
-\end{frame}
+This guide covers Linux setup for use and development. For Windows use, just download the compiled binary from the Bitcraze Github/website. Windows development is believed to happen through the Bitcraze VM, containing Linux. Running a VM introduces additional variables with the virtualization software out of control of the developers maintaining the VM. Therefore, running Linux natively on your machine is strongly suggested, even if you are new to Linux. If you would like to use a drone as advanced and sophisticated as the Crazyflie, you should have/learn the limited Linux proficiency required in this guide. 
 
+It is recommended that you skim the procedure before starting. It is targeted towards someone who may be new to or intimidated by Linux, so at times may be wordy, but to do any serious development, native Linux is strongly recommended by this guide, either dual booted or installed alone on your hard drive. 
 \section{Setup}
 \subsection{Software Package Requirements}
-\begin{frame}
-	\frametitle{Software Package Requirments}
 	\begin{itemize}
 		\item Git
 			\begin{itemize}
@@ -113,7 +78,7 @@
 				\item virtualenv
 			\end{itemize}
 			\end{itemize}
-		\item Docker
+		\item Docker (optional, not covered in this guide)
 			\begin{itemize}
 				\item Vitual environment outside of Python
 				\item Used for installation and use of Bitcraze toolbelt
@@ -123,162 +88,226 @@
 				\item https://github.com/bitcraze/toolbelt
 			\end{itemize}
 	\end{itemize}
-\end{frame}
 
 \section{Procedure for Basic Development}
-\begin{frame}
-	\frametitle{Procedure for Basic Development}
+The following procedure assumes you have Git installed and working (comes on most Linux distros) and will proceed as follows:
 	\begin{itemize}
-		\item (Optional) Install Docker/toolbelt
 		\item Fork/clone crazyflie-clients-python from GitHub
-			\begin{semiverbatim}
-			\ git clone https://github.com/bitcraze/crazyflie-clients-python
-			\end{semiverbatim}
 		\item Set up Python virtual environment
 		\item Install necessary dependencies
 		\item Set udev permissions
 		\item Run Crazyflie client, you can modify the source code
+		\item (Optional) Install Docker/toolbelt
 	\end{itemize}
-\end{frame}
 
 \subsection{Setting up Python Virtual Environment}
-\begin{frame}
-	\frametitle{Setting up Python Virtual Environment}
-	\begin{itemize}
-		\item Most of the documentation states to use virtualenv
-		\begin{itemize}
-			\item Contains dependencies installed with pip, a Python package manager in an isolated environment
-			\item Pip struggles to install some dependencies needed to run the CF client
-		\end{itemize}
-		\item Solution: use Anaconda/Miniconda
-		\begin{itemize}
-			\item Anaconda is a Python suite including Python, conda, a python package manager, and many useful Python packages	
-			\item Conda package manager handles finnicky package installs better than pip
-			\item Conda also has an implementation of virtual environments that can handle packages installed with conda as well as pip 
-			\item Some preconfigured packages in Anaconda don't play nice with the required ones for cfclient
-			\item Miniconda contains just Python and conda
-			\item Miniconda can be used to setup 'naked' conda virtual environments and install only what is needed and works
-		\end{itemize}
-	\end{itemize}
-\end{frame}
+\subsubsection{Git Overview}
+All version control for this project is done with Git. It is accessible from the command line and some proficiency with basic linux commands such as \textit{cd} to change directory, \textit{ls}, to list the contents, and \textit{pwd} to print the working directory are assumed. If this is your first time using Github repositories, it is recommended that you create a Github folder in your home folder, containing the usernames of repo owners, containing the individual repositories.
+\\
+\\
+For example, open a terminal and change to your home directory:
+\begin{verbatim}cd /home/yourUsername/ \end{verbatim}
+You should not see any change because by default, your teminal should open to your home directory.
+\begin{verbatim}yourUsername@yourHostname:~$ \end{verbatim}
+The tilde is a shortcut for home.
 
-\begin{frame}
-	\frametitle{Setting up Python Virtual environment (cont.)}
-	\begin{itemize}
-		\item Download and install latest Miniconda setup
-		\begin{itemize}
-			\item It should add an alias to the 'conda' command in your .bashrc
-			\item This lets you run conda from any folder by typing 'conda'
-		\end{itemize}			
-		\item Create a conda virtual environment for the CF Client install and development
-		\begin{itemize}
-			\item Name it something useful, like 'crazyfliedev'
-		\end{itemize}
-			\begin{semiverbatim}
-			\ conda create -n crazyfliedev
-			\end{semiverbatim}
-		\item Your conda empty virtual environment is now ready for dependency installation
-	\end{itemize}
-\end{frame}
+\subsubsection{Environment Management}
+Most of the documentation states to use virtualenv. Virtualenv Contains dependencies installed with pip, a Python package manager in an isolated environment. Pip struggles to install some dependencies needed to run the CF client.
+\\\\    
+Solution: use Anaconda/Miniconda
+\\\\    	
+Anaconda is a Python suite including Python, conda, a python package manager, and many useful Python packages. Conda package manager handles finnicky package installs better than pip. Conda also has an implementation of virtual environments that can handle packages installed with conda as well as pip. Some preconfigured packages in Anaconda don't play nice with the required ones for cfclient. Miniconda contains just Python and conda
 
-\subsection{Install dependencies}
-\begin{frame}
-	\frametitle{Installing Dependencies}
-	\begin{itemize}	
-		\item Hard work of solving proper dependencies can be summed up
-		\item .. Into a conda virtual environment configuration file!
-		\item Simply clone (or view/search) this github repository:
-			\begin{semiverbatim}
-			\ git clone https://github.com/sayboltm/ECE813.git
-			\end{semiverbatim} 
-		\begin{itemize}
-			\item Locate File:
-			\item ECE813/environments/crazyflie.yml	
-			\item Create a new conda virtual environment from file!
-				\begin{semiverbatim}
-				\ conda env create -f crazyflie.yml
-				\end{semiverbatim}
-			\item Activate it:	
-				\begin{semiverbatim}
-				\ source activate crazyflie
-				\end{semiverbatim}
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-\begin{frame}
-	\frametitle{Installing Dependencies (cont.)}
-	\begin{itemize}
-		\item Else, (say, in case of failure to run CF client with those dependencies included in crazyflie.yml)
-		\begin{itemize}
-			\item Activate previously created 'naked' environment
-			\begin{semiverbatim}
-			\ source activate crazyfliedev
-			\end{semiverbatim}
-			\item Run setup file
-			\begin{semiverbatim}
-			\ cd /path/to/crazyflie-clients-python/
-			\end{semiverbatim}
-			\begin{semiverbatim}
-			\ python setup.py
-			\end{semiverbatim}
+Miniconda can be used to setup 'naked' conda virtual environments and install only what is needed and works. Download and install latest Miniconda setup. The installer should add an alias to the 'conda' command in your .bashrc. This lets you run conda from any folder by typing 'conda'
+\begin{verbatim}
+username@Hostname:~$ conda
+\end{verbatim}
+It should return:
+\begin{verbatim}
+usage: conda [-h] [-V] command ...
 
-		\end{itemize}
-		\item Install any dependencies inside your conda virtual environment
-		\item Deactivate the virtual environment when not needed
-			\begin{semiverbatim}
-			\ source deactivate
-			\end{semiverbatim}
-		\item Any modification or use of the CFC will require the environment to be active
-	\end{itemize}
-\end{frame}
+conda is a tool for managing and deploying applications, 
+environments and packages.
+\end{verbatim}
+with some additonal text, if it is installed correctly.
 
-\begin{frame}
-	\frametitle{Setting USB Device (udev) permissions}
-	\begin{itemize}
-		\item Setting udev permissions allows access to usb devices without root permissions
-		\item It is bad practice to use root unless absolutely necessary
-		\item Crazyflie development is not a good reason
-		\item Add yourUsername to group plugdev if it is not already
-		\begin{itemize}
-			\item Check to see what groups you are in	
-				\begin{semiverbatim}
-				\ groups yourUsername
-				\end{semiverbatim}
-			\item Add yourself or create and add if needed
-				\begin{semiverbatim}
-				\ sudo groupadd plugdev
-				\end{semiverbatim}
-				\begin{semiverbatim}
-				\ sudo usermod -a -G plugdev yourUsername
-				\end{semiverbatim}
-		\end{itemize}
-	\end{itemize}
-\end{frame}
+\subsubsection{Download Crazyflie Source}
+Download the crazyflie source by navigating to your Github folder:
+\begin{verbatim} cd ~/Github \end{verbatim}
+If it does not exist, create it:
+
+\begin{verbatim} mkdir ~/Github \end{verbatim}
+(you can leave off the \begin{verbatim} ~/ \end{verbatim} if you are already in home folder).
+
+Following suggested heirarchy, make a bitcraze folder inside:
+\begin{verbatim} mkdir bitcraze \end{verbatim}
+Clone (download/sync up to) the repository:
+\begin{verbatim} git clone https://github.com/bitcraze/crazyflie-clients-python.git \end{verbatim}
+
+\begin{verbatim} \end{verbatim}
+\subsection{The easy way}
+Since all the heavy lifting of sifting through documentation and figuring out what works and what doesn't has been done already, the installation is extremely straightforward. Using conda is so nice, because what works and what doesn't can be summed up into a nice bulleted list... \textbf{which can be read by conda and used to create a new environment and download/install all dependencies in one line!}
+Simply clone this GitHub repository into a suitable folder:
+\begin{verbatim}
+git clone https://github.com/sayboltm/ECE813.git
+\end{verbatim}
+Navigate to your cloned folder:
+\begin{verbatim}
+cd /path/to/GitHub/sayboltm/ECE813/environments/
+\end{verbatim}
+It contains a file, crazyflie.yml. Feel free to open it and see the neat bulleted list that will be interpreted by conda to build your environment.
+
+Create a conda virtual environment from the file (-f), install the cflib and other dependencies:
+\begin{verbatim}
+conda env create -f crazyflie.yml
+\end{verbatim}
+
+Install to conda virtual environment 'crazyflie' is complete. This is not the latest version, but it is known to work, and should always work because it pulls specific versions of only what it needs. If an update is needed, it is recommended to simply create a new environment and test the new version in there.
+
+\subsubsection{Tangent: brief discussion of virtual environments}
+To activate an environment, in this case one called 'crazyflie', type:
+\begin{verbatim} source activate crazyflie \end{verbatim}
+Your terminal will go from:
+\begin{verbatim} yourUsername@yourHostname:~$ \end{verbatim}
+To:
+\begin{verbatim} (crazyflie)yourUsername@yourHostname:~$ \end{verbatim}
+to signify that the environment is active. Typing \begin{verbatim} conda list \end{verbatim} will list all python packages installed in the current environment.
+
+To deactivate:
+\begin{verbatim} source deactivate \end{verbatim}
+
+but be sure to be in the environment when using or developing things that depend on these packages.
+
+\subsubsection{Run the CF Client}
+You can now run the Crazyflie Client by navigating to the cloned repo:
+\begin{verbatim} cd /path/to/Githubfolder/bitcraze/crazyflie-clients-python/ \end{verbatim}
+and running the binary inside the bin folder:
+\begin{verbatim} python bin/cfclient \end{verbatim}
+
+\subsection{The slightly more complicated way}
+Instead of creating a conda virtual environment from a file, this will create an empty conda virtual environment, and then what is needed is installed.
+
+\subsubsection{Create empty virtual environment}
+Create a conda virtual environment for the CF Client install and development. Name it something unambiguious, like 'crazyfliedev'. 
+\begin{verbatim}
+conda create -n crazyfliedev
+\end{verbatim}
+Your conda empty virtual environment is now ready for dependency installation.
+
+\subsubsection{Install dependencies}
+Activate the virtual environment if not already active:
+\begin{verbatim}
+source activate crazyflie_dev
+\end{verbatim}
+
+Download the python package manager, pip:
+\begin{verbatim}
+conda install pip
+\end{verbatim}
+
+%\lipsum[1] % Random text to demo indentation, increment the index formoar
+\begin{addmargin}[1em]{2em} %using scrextend to indent this
+Note that if you use alternate channels for conda, like conda-forge or something, there have been errors when using packages from there. Use standard conda channels. If using conda-forge, remove with:
+\begin{verbatim}
+conda config --remove channels conda-forge
+\end{verbatim}
+Else if this is your first time using conda/git, don't worry about this.
+\end{addmargin}
+Navigate to the cloned CF Client repo if not already there:
+\begin{verbatim}
+cd /path/to/Github/bitcraze/crazyflie-clients-python/
+\end{verbatim}
+
+Use pip to install the dependencies from the cloned repo, in editable mode (-e flag) by running pip install in the current directory (./):
+\begin{verbatim}
+pip install -e ./
+\end{verbatim}
+
+Pip doesn't like to install pyqt, a python wrapped C-based library for making cool GUIs. But conda can.
+\begin{verbatim}
+conda install pyqt
+\end{verbatim}
+
+Run the CF Client by navigating to its directory and running it as described in section \textit{Run the CF Client}.
+
+\subsubsection{For the curious onlooker}
+To recap, the easy version has conda install all dependencies from the crazyflie.yml markup file that happens to be nice and human readable. To ensure future compatibility, this installs specific versions of the dependencies, but was modified to pull the cflib from github at a spefic commit, because that was the version that was installed when the environment was created. Essentially, it creates an environment with a specific version of crazyflie client and cflib, and installs those dependencies that work with it. For more information, learn more about Github version control.
+
+
+\subsection{Setting USB Device Permissions}
+In Linux, access to USB devices requires root (admin) privledges. It is bad practice to use root unless absolutely necessary. Crazyflie development is not a good reason. Setting udev permissions allows access to usb devices for your username without root permissions.
+
+You can view what groups your user is a part of by typing:
+\begin{verbatim}
+groups yourUsername
+\end{verbatim}
+
+Create group plugdev if it is not already created, and \textbf{a}ppend yourUsername to that \textbf{G}roup:
+\begin{verbatim}
+sudo groupadd plugdev
+sudo usermod -a -G plugdev yourUsername
+\end{verbatim}
+
+Note: Using superuser to do (sudo) this is ok here, and generally required to change system level settings like this.
+
+\subsubsection{Rules: Crazyradio PA}
+Now you must tell the system how to identify a specific USB device (the Crazyradio PA, and Crazyflie 2.0 if you want to plug it in) for access by the users in group plugdev. This is done by creating the following rules. If the file or folder does not exist, create it.
+For the Crazyradio PA, there must be a file in:
+\begin{verbatim}
+/etc/udev/rules.d/
+\end{verbatim}
+called
+\begin{verbatim}
+99-crazyradio.rules
+\end{verbatim}
+Make folders and files as necessary, cd into the rules.d folder, and open a text editor like nano or vim in the terminal. Paste the following into the file:
+\begin{verbatim}
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1915", ATTRS{idProduct}=="7777",
+MODE="0664", GROUP="plugdev"
+\end{verbatim}
+Save it. Note to save in this folder you will have to open the text editor as root, prefixing the command with sudo. This is the same as dragging a text file into that folder with that text, but it is easier to just open the text editor while in that directory and paste in the text.
+
+\subsubsection{Rules: Crazyflie 2.0}
+There also must be a rule to uniquely identify the Crazyflie. Make a file, again in:
+\begin{verbatim}
+/etc/udev/rules.d/
+\end{verbatim}
+but this time called:
+\begin{verbatim}
+99-crazyflie.rules
+\end{verbatim}
+
+containing the following text:
+\begin{verbatim}
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740",
+MODE="0664", GROUP="plugdev"
+\end{verbatim}
+
+\subsubsection{Additional Information}
+If the crazyradio is not detected by the CF Client, look here and make sure everything is typed correctly and in the correct location. These rules are unique to these USB devices so they will not work with crazyflie 1.0.
 
 \section{I Broke It}
-\begin{frame}
-	\frametitle{I broke it}
 	\begin{itemize}
 		\item Adding or upgrading dependencies can break others
 		\item Importance in using virtual Python environments
 		\item Easy to save, recreate old environment
 		\item Recommended that you create a new virtual environment when upgrading
 		\item Pull the latest Crazyflie client, then use pip to install any new dependencies
-			\begin{semiverbatim}
-			\ cd /path/to/crazyflie-clients-python/
-			\end{semiverbatim}
-			\begin{semiverbatim}
-			\ git pull
-			\end{semiverbatim}
-			\begin{semiverbatim}
-			\ pip install -e ./
-			\end{semiverbatim}
+			\begin{verbatim}
+			cd /path/to/crazyflie-clients-python/
+			\end{verbatim}
+			\begin{verbatim}
+			git pull
+			\end{verbatim}
+			\begin{verbatim}
+			pip install -e ./
+			\end{verbatim}
       \end{itemize}
-\end{frame}
 
 \section{To Do}
-\begin{frame}
-	\frametitle{To Do}
+There is a Toolbelt and Docker install necessary for compiling Windows binaries, but this was difficult to follow and did not seem necessary for Linux use and dev.
+
+\subsection{To Do: In relation to ECE 813 Cyber Physical Systems project}
 	\begin{itemize}
 		\item Fix Toolbelt setup
 		\item Do some development with the CF Client
@@ -289,12 +318,9 @@
 			\item Implement local positioning project
 		\end{itemize}
 	\end{itemize}
-\end{frame}
 
 
-\section{Software Challenges}
-\begin{frame}
-	\frametitle{Challenges: Sounds easy right?}
+\section{Software Challenges Encountered in this Project}
 	\begin{itemize}
 		\item Python wrapped C libraries are finnicky
 			\begin{itemize}
@@ -321,14 +347,28 @@
 				\item Conda env handles conda and pip managed packages
 			\end{itemize}
 	\end{itemize}
-\end{frame}
 
+\subsection{Software Summary}
+At the very end, hours of research, trial and error were condensed into a conda environment configuration markup file leading to near instant deployment of crazyflie development environments without needing the finnicky VM setup. Although not much actual development was actually done, solving these problems encountered and using this containment system is hugely important for future development, and to lower the barrier of access for prospective developers, keeping the Crazyflie development community active and growing.
 
-%\begin{frame}
-%	\frametitle{}
-%\end{frame}
-%
-%\begin{semiverbatim}
-%\end{semiverbatim}
+This was done while dodging many perceived hardware bugs, none of which were encountered after switching to Linux.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{CPS Project Navigation}
+\subsection{Initial Approach}
+The initial goal for this project was to achieve stable autonomous flight using a proprietary local positioning system. Two potential options that were considered were using the proprietary Loco positioning system and the use of acoustic beacons. The Loco positioning was too expensive and was abandoned. The Crazyflie’s limited battery life made acoustic positioning impractical.
+\subsection{Inertial Navigation}
+An attempt was made to navigate using only the drones onboard sensors; however, progress developing this approach was impeded by communication issues between the control PC and the drone. The project goals were reformulated to achieving autonomous hovering.
+\subsection{Hovering}
+The Crazyflie firmware has provisions for PID controllers. During controlled flight the user has the ability to activate an altitude hold mode via a controller input. Attempts were made to discover and emulate these control signals; however, connection issues continued to impede progress.
+\subsection{Hardware Issues}
+Throughout the project, connection issues made the connection between the drone and the radio dongle unreliable. The exact behavior of this issue varied, but the core issue was that excess packet loss would eventually break the connection. To reconnect the radio dongle would have be unplugged then reconnected to the control PC.
+\subsection{Troubleshooting}
+\subsubsection{Channel Interference}
+The active communication channel and bandwidth were changed to avoid any potential interference. The channel was set too channel 49 and the bandwidth was set to 2Mbit/s While this did improve connection latency, it did not resolve the core issue.
+\subsubsection{Bluetooth Connection}
+Posts on the developer’s forum suggested that the Crazyflie’s Bluetooth connection could interfere with the connection to the radio dongle. An attempt was made to disable the Bluetooth connection. This was accomplished by editing make file parameters and rebuilding and re-flashing the communication MCU’s firmware. While this did disable the Bluetooth connection it did not solve the connection issues. The Bluetooth connection was eventually re-enabled using the terminal to navigate to the firmware directory and running the following commands: ake BLE=1 all, make clean, and make cload.
+\subsubsection{Virtualbox Settings}
+After an update, a setting in Virtualbox to support USB 3.0 was found. The PC that we were developing on had one USB 2.0 and two USB 3.0 ports. While the radio was plugged into the USB 2.0 port, changing the setting to USB 3.0 resolved the connection issue.
 
 \end{document}
