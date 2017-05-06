@@ -1,0 +1,30 @@
+Setting up crazyflie  V3.0
+ # Once more with feeling.. 3rd time's a charm
+
+conda create -n crazyflietest
+conda install pip
+cd to /crazyflie-clients-python/
+pip install -e ./
+
+bunch of shit error
+
+conda install pyqt
+
+ffffuuu same shit
+source deactivate
+conda env remove --name crazyflietest
+
+## Take 2
+conda create -n crazyflietest
+# Get rid of conda-forge from doconce
+conda config --remove channels conda-forge
+conda install pip
+pip install -e ./
+error: no qt5
+conda install pyqt
+
+BOOM! Wohoo time to go home
+
+Try:
+see the new crazyflie.yml!! :D
+
