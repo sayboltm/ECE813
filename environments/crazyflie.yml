@@ -1,4 +1,4 @@
-name: crazyflie_ymltest
+name: crazyflie
 channels:
 - defaults
 dependencies:
@@ -39,5 +39,5 @@ dependencies:
   - pyqtgraph==0.10.0
   - pyusb==1.0.0
   - pyzmq==16.0.2
-prefix: /home/mike/miniconda3/envs/crazyflie_ymltest
+prefix: /home/mike/miniconda3/envs/crazyflie
 
